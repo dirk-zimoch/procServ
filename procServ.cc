@@ -18,13 +18,13 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <sys/types.h> 
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <getopt.h>
-#include <sys/wait.h> 
+#include <sys/wait.h>
 #include <signal.h>
-#include <unistd.h> 
+#include <unistd.h>
 #include <termios.h>
 #include <sys/ioctl.h>
 #include <sys/select.h>
@@ -137,7 +137,7 @@ void writePidFile(int pid)
     fclose(fp);
 }
 
-char getOptionChar ( const char* buf ) 
+char getOptionChar ( const char* buf )
 {
     if ( buf == NULL || buf[0] == 0 ) return 0;
     if ( buf[0] == '^' && buf[1] == '^' ) {
@@ -569,7 +569,7 @@ int main(int argc,char * argv[])
         AddConnection(clientFactory(0));
     }
 
-    // Record some useful data for managers 
+    // Record some useful data for managers
     snprintf(infoMessage1, INFO1LEN,
              "@@@ procServ server PID: %ld" NL
              "@@@ Server startup directory: %s" NL
@@ -586,10 +586,10 @@ int main(int argc,char * argv[])
     strncat(infoMessage1, buff, INFO1LEN-strlen(infoMessage1)-1);
     snprintf(infoMessage2, INFO2LEN, "@@@ Child \"%s\" is SHUT DOWN" NL, childName);
     if ( logFile ) {
-	if ( -1 == logFileFD )
+        if ( -1 == logFileFD )
             snprintf(buff, BUFLEN, "@@@ Child log file: unable to open log file %s" NL,
                      logFile );
-	else
+        else
             snprintf(buff, BUFLEN, "@@@ Child log file: %s" NL,
                      logFile );
         strncat(infoMessage1, buff, INFO1LEN-strlen(infoMessage1)-1);
@@ -621,9 +621,9 @@ int main(int argc,char * argv[])
         timeout.tv_nsec = 500000000l;
 
         ready = pselect(nFd, &fdset, NULL, NULL, &timeout, &sigset_pselect);
-        
+
         // Handle signals for which signal handlers were called while in pselect.
-        
+
         if (sigTermSet) {
             sigTermSet = 0;
             PRINTF("SigTerm received\n");
@@ -636,11 +636,11 @@ int main(int argc,char * argv[])
             PRINTF("SigHup received\n");
             openLogFile();
         }
-        
+
         if (0 == ready) {                     // Timeout
             // Go clean up dead connections
             OnPollTimeout();
-            connectionItem * npi; 
+            connectionItem * npi;
 
             // Pick up the process item if it dies
             // This call returns NULL if the process item lives
@@ -653,7 +653,7 @@ int main(int argc,char * argv[])
                   npi= processFactory(childExec, childArgv, &sigset_child);
                   if (npi) AddConnection(npi);
                   if (firstRun) {
-                  	firstRun = false;
+                    firstRun = false;
                   }
                 }
             }
@@ -812,15 +812,15 @@ void AddConnection(connectionItem * ci)
 {
     PRINTF("Adding connection %p to list\n", ci);
     if (connectionItem::head )
-	{
-	    ci->next=connectionItem::head;
-	    ci->next->prev=ci;
-	}
-	else ci->next=NULL;
-	
-	ci->prev=NULL;
-	connectionItem::head=ci;
-	connectionNo++;
+    {
+        ci->next=connectionItem::head;
+        ci->next->prev=ci;
+    }
+    else ci->next=NULL;
+
+    ci->prev=NULL;
+    connectionItem::head=ci;
+    connectionNo++;
 }
 
 
@@ -828,17 +828,17 @@ void DeleteConnection(connectionItem *ci)
 {
     PRINTF("Deleting connection %p\n", ci);
     if (ci->prev) // Not the head
-	{
-		ci->prev->next=ci->next;
-	}
-	else
-	{
-		connectionItem::head = ci->next;
-	}
-	if (ci->next) ci->next->prev=ci->prev;
-        delete ci;
-	connectionNo--;
-	assert(connectionNo>=0);
+    {
+        ci->prev->next=ci->next;
+    }
+    else
+    {
+        connectionItem::head = ci->next;
+    }
+    if (ci->next) ci->next->prev=ci->prev;
+    delete ci;
+    connectionNo--;
+    assert(connectionNo>=0);
 }
 
 static void OnSigTerm(int)

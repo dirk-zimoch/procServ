@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h> 
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -222,7 +222,7 @@ void acceptItemTCP::remakeConnection()
     getsockname(_fd, (struct sockaddr *) &addr, &slen);
 
     PRINTF("Listening on fd %d\n", _fd);
-    return; 
+    return;
 }
 
 #ifdef USOCKS

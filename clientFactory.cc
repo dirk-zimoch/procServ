@@ -224,7 +224,7 @@ void clientItem::processInput(const char *buf, int len)
                 if (restartMode == restart) restartMode = norestart;
                 else if (restartMode == norestart) {
                     restartMode = oneshot;
-                    firstRun    = true;	// Allow process to run once AFTER selecting oneshot
+                    firstRun    = true; // Allow process to run once AFTER selecting oneshot
                 }
                 else restartMode = restart;
                 char msg[128] = NL;

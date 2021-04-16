@@ -63,8 +63,8 @@ connectionItem * processFactory(char *exe, char *argv[], sigset_t *sigset)
 
     if (processFactoryNeedsRestart())
     {
-    snprintf(buf, BUFLEN, "@@@ Restarting child \"%s\"" NL, childName);
-	SendToAll( buf, strlen(buf), 0 );
+        snprintf(buf, BUFLEN, "@@@ Restarting child \"%s\"" NL, childName);
+        SendToAll( buf, strlen(buf), 0 );
 
         if ( strcmp( childName, argv[0] ) != 0 ) {
             snprintf(buf, BUFLEN, "@@@    (as %s)" NL, argv[0]);
@@ -73,10 +73,10 @@ connectionItem * processFactory(char *exe, char *argv[], sigset_t *sigset)
 
         connectionItem *ci = new processClass(exe, argv, sigset);
         PRINTF("Created new child connection (processClass %p)\n", ci);
-	return ci;
+        return ci;
     }
     else
-	return NULL;
+        return NULL;
 }
 
 processClass::~processClass()
@@ -216,10 +216,10 @@ processClass::processClass(char *exe, char *argv[], sigset_t *sigset)
             execvp(exe, argv);              // execvp()
         }
 
-	// This shouldn't return, but did...
-	fprintf( stderr, "%s: child could not execute: %s, %s\n",
+        // This shouldn't return, but did...
+        fprintf( stderr, "%s: child could not execute: %s, %s\n",
                  procservName, *argv, strerror(errno) );
-	exit( -1 );
+        exit( -1 );
     }
 }
 
@@ -267,8 +267,8 @@ int processClass::Send( const char * buf, int count )
 
     if ( count > 0 )
     {
-	status = write( _fd, buf2, count - ign );
-	if ( status < 0 ) _markedForDeletion = true;
+        status = write( _fd, buf2, count - ign );
+        if ( status < 0 ) _markedForDeletion = true;
     }
 
     if ( count > LINEBUF_LENGTH ) free( buf2 );

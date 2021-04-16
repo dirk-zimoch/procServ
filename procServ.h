@@ -101,11 +101,11 @@ connectionItem * clientFactory(int ioSocket, bool readonly=false);
 connectionItem * acceptFactory( const char *spec, bool local=true, bool readonly=false );
 
 extern connectionItem * processItem; // Set if it exists
- 
+
 
 // connectionItem class definition
 // This is an abstract class that all of the other classes use
-// 
+//
 class connectionItem
 {
 public:
